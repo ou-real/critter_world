@@ -2,9 +2,9 @@ package edu.ou.cs.real.world;
 
 import com.sun.javafx.geom.Vec2d;
 import edu.ou.cs.real.critter.Critterable;
-import edu.ou.cs.real.edu.ou.cs.real.food.ArrayFoodMap;
-import edu.ou.cs.real.edu.ou.cs.real.food.Food;
-import edu.ou.cs.real.edu.ou.cs.real.food.FoodMappable;
+import edu.ou.cs.real.food.ArrayFoodMap;
+import edu.ou.cs.real.food.Food;
+import edu.ou.cs.real.food.FoodMappable;
 
 import java.util.ArrayList;
 

@@ -14,3 +14,5 @@ hs_err_pid*
 # IntelliJ settings
 *.xml
 .idea/
+*.xml
+.idea/workspace.xml

@@ -1,4 +1,4 @@
-package edu.ou.cs.real.edu.ou.cs.real.food;
+package edu.ou.cs.real.food;
 
 import com.sun.javafx.geom.Vec2d;
 
