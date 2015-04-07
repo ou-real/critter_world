@@ -25,7 +25,7 @@ import org.neuroph.util.NeurophArrayList;
 
 /**
  *<pre>
- * Basic general neuron model according to McCulloch-Pitts neuron model.
+ * Basic test neuron model according to McCulloch-Pitts neuron model.
  * Different neuron models can be created by using different input and transfer functions for instances of this class,
  * or by deriving from this class. The neuron is basic processing element of neural network.
  * This class implements the following behaviour:

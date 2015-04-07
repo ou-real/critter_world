@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Base class for all neural network learning algorithms. It provides the
- * general principles for training neural network.
+ * test principles for training neural network.
  *
  * @author Zoran Sevarac <sevarac@gmail.com>
  */

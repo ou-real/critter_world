@@ -19,5 +19,7 @@ public interface Critterable {
 
     public double getRange();
 
+    public double getMaintenance();
+
     public Critterable reproduce();
 }

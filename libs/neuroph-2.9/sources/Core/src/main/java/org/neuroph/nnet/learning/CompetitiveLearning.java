@@ -66,7 +66,7 @@ public class CompetitiveLearning extends UnsupervisedLearning {
 	 */
 	protected void updateNetworkWeights() {
 		// find active neuron in output layer
-		// TODO : change idx, in general case not 1
+		// TODO : change idx, in test case not 1
 		CompetitiveNeuron winningNeuron = ((CompetitiveLayer) neuralNetwork
 				.getLayerAt(1)).getWinner();
 

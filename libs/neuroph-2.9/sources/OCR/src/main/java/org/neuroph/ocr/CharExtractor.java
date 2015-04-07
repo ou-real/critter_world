@@ -98,7 +98,7 @@ public class CharExtractor {
             
             // BUG?: this condition looks strange.... we might not need whitePixCounter at all, it might be used for 'I' letter
             whitePixCounter++;                                              // if its not black pixel assume that its white pixel
-            if (whitePixCounter == 3) {                                     // why 3 pixels? its hard coded for some case and does not work in general...!!!
+            if (whitePixCounter == 3) {                                     // why 3 pixels? its hard coded for some case and does not work in test...!!!
                 whitePixCounter = 0;                                        // why does it sets to zero, this has no purporse at all...
             }
         }

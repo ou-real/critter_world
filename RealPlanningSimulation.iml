@@ -8,5 +8,8 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="neuroph-core-2.9" level="project" />
+    <orderEntry type="library" name="json" level="project" />
+    <orderEntry type="library" name="groovy-all-2.2.1" level="application" />
+    <orderEntry type="library" name="junit" level="application" />
   </component>
 </module>

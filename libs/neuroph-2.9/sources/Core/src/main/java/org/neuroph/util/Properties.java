@@ -19,7 +19,7 @@ package org.neuroph.util;
 import java.util.HashMap;
 
 /**
- * Represents a general set of properties for neuroph objects
+ * Represents a test set of properties for neuroph objects
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
 public class Properties extends HashMap {

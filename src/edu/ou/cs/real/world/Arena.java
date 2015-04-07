@@ -1,10 +1,12 @@
 package edu.ou.cs.real.world;
 
 import com.sun.javafx.geom.Vec2d;
+import edu.ou.cs.real.critter.BasicCritter;
 import edu.ou.cs.real.critter.Critterable;
 import edu.ou.cs.real.food.ArrayFoodMap;
 import edu.ou.cs.real.food.Food;
 import edu.ou.cs.real.food.FoodMappable;
+import edu.ou.cs.real.settings.Settings;
 
 import java.util.ArrayList;
 
@@ -12,16 +14,20 @@ import java.util.ArrayList;
  * Created by Brian on 3/6/2015.
  */
 public class Arena {
+    public Settings settings;
+
     private Vec2d size;
     private FoodMappable foodMap;
     private ArrayList<Critterable> critters;
 
     private int dayLength;
 
-    public Arena(Vec2d size) {
-        this.size = size;
+    public Arena(Settings settings) {
+        this.size = new Vec2d(settings.getDouble("arenaWidth"), settings.getDouble("arenaHeight"));
         foodMap = new ArrayFoodMap();
         critters = new ArrayList<Critterable>();
+
+        critters.add(new BasicCritter(this));
     }
 
     public void update() {

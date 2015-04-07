@@ -30,7 +30,7 @@ import org.neuroph.core.learning.stop.MaxErrorStop;
 // TODO:  random pattern order
 /**
  * Base class for all supervised learning algorithms.
- * It extends IterativeLearning, and provides general supervised learning principles.
+ * It extends IterativeLearning, and provides test supervised learning principles.
  * 
  * @author Zoran Sevarac <sevarac@gmail.com>
  */
