@@ -11,6 +11,7 @@ public interface Critterable {
     public void setLocation(Vec2d location);
 
     public void emptyFood();
+    public double getFood();
     public void addFood(double foodValue);
 
     public Action takeTurn();
@@ -22,4 +23,10 @@ public interface Critterable {
     public double getMaintenance();
 
     public Critterable reproduce();
+
+    public double getReproductionBank();
+    public void increaseReproductionBank(double value);
+
+    public double getMigrationBank();
+    public void increaseMigrationBank(double value);
 }

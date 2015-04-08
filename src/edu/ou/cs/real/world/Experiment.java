@@ -1,9 +1,7 @@
 package edu.ou.cs.real.world;
 
-import com.sun.javafx.geom.Vec2d;
 import edu.ou.cs.real.settings.Settings;
 
-import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -11,7 +9,7 @@ import java.util.ArrayList;
  */
 public class Experiment {
     public int startArenaCount;
-    public int daysToRun;
+    public int experimentLength;
 
     private ArrayList<Arena> arenas;
 
@@ -20,7 +18,7 @@ public class Experiment {
 
     public Experiment(Settings settings) {
         startArenaCount = settings.getInt("startArenaCount");
-        daysToRun = settings.getInt("startArenaCount");
+        experimentLength = settings.getInt("experimentLength");
 
         arenas = new ArrayList<Arena>(startArenaCount);
         for (int i = 0; i < startArenaCount; i++) {
@@ -29,7 +27,7 @@ public class Experiment {
     }
 
     public void run() {
-        for (int day = 0; day < daysToRun; day++) {
+        for (int day = 0; day < experimentLength; day++) {
             // TODO distribute food to each arena
 
             // TODO run each arena every day

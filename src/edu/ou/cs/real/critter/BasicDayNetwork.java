@@ -3,12 +3,20 @@ package edu.ou.cs.real.critter;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.exceptions.VectorSizeMismatchException;
 import org.neuroph.nnet.Perceptron;
+import org.neuroph.util.random.GaussianRandomizer;
 
 /**
  * Created by Brian on 3/6/2015.
  */
 public class BasicDayNetwork implements CritterNeuralNetwork {
-    private NeuralNetwork neuralNetwork;
+    protected NeuralNetwork neuralNetwork;
+
+    public BasicDayNetwork(CritterNeuralNetwork parent, double mean, double sd) {
+        neuralNetwork = new Perceptron(8, 5);
+        GaussianRandomizer randomizer = new GaussianRandomizer(mean, sd);
+        neuralNetwork.setWeights(parent.getWeights());
+        randomizer.randomize(neuralNetwork);
+    }
 
     /**
      * Create a neural network according to predefined specifications

@@ -3,6 +3,7 @@ package edu.ou.cs.real.critter;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.exceptions.VectorSizeMismatchException;
 import org.neuroph.nnet.Perceptron;
+import org.neuroph.util.random.GaussianRandomizer;
 
 /**
  * Created by Brian on 3/6/2015.
@@ -10,11 +11,18 @@ import org.neuroph.nnet.Perceptron;
 public class BasicNightNetwork implements CritterNeuralNetwork {
     private NeuralNetwork neuralNetwork;
 
+    public BasicNightNetwork(CritterNeuralNetwork parent, double mean, double sd) {
+        neuralNetwork = new Perceptron(8, 5);
+        GaussianRandomizer randomizer = new GaussianRandomizer(mean, sd);
+        neuralNetwork.setWeights(parent.getWeights());
+        randomizer.randomize(neuralNetwork);
+    }
+
     /**
      * Create the basic night time network
      */
     public BasicNightNetwork() {
-        neuralNetwork = new Perceptron(10, 5); // TODO
+        neuralNetwork = new Perceptron(6, 5); // TODO
         neuralNetwork.randomizeWeights();
     }
 

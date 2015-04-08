@@ -2,33 +2,57 @@ package edu.ou.cs.real.critter;
 
 import com.sun.javafx.geom.Vec2d;
 import edu.ou.cs.real.Action;
+import edu.ou.cs.real.settings.Settings;
 import edu.ou.cs.real.world.Arena;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
  * Created by Brian on 3/6/2015.
  */
 public class BasicCritter implements Critterable {
-    private Arena arena;
+    public Arena arena;
+    public Settings settings;
+    public Critterable parent;
 
-    private CritterNeuralNetwork dayNetwork;
-    private CritterNeuralNetwork nightNetwork;
+    protected CritterNeuralNetwork dayNetwork;
+    protected CritterNeuralNetwork nightNetwork;
 
     private Vec2d location;
     private double collectedFood;
 
+    private ArrayList<Critterable> children;
+
+    private double reproductionBank;
+    private double migrationBank;
+
     private double range;
 
-    public BasicCritter(BasicCritter parent) {
-        // TODO reproduction code
+    public BasicCritter(BasicCritter parent, Settings settings) {
+        this.settings = settings;
+        children = new ArrayList<Critterable>();
+
+        this.parent = parent;
+        arena = parent.arena;
+
+        location = new Vec2d(settings.getDouble("nest x"), settings.getDouble("nest y"));
+
+        double mean = settings.getDouble("randomizer mean");
+        double sd = settings.getDouble("randomizer standard_deviation");
+        dayNetwork = new BasicDayNetwork(parent.dayNetwork, mean, sd);
+        nightNetwork = new BasicNightNetwork(parent.nightNetwork, mean, sd);
     }
 
-    public BasicCritter(Arena arena) {
+    public BasicCritter(Arena arena, Settings settings) {
+        this.settings = settings;
+        children = new ArrayList<Critterable>();
+
+        parent = null;
         this.arena = arena;
 
-        location = new Vec2d(0, 0);
+        location = new Vec2d(settings.getDouble("nest x"), settings.getDouble("nest y"));
 
         dayNetwork = new BasicDayNetwork();
         nightNetwork = new BasicNightNetwork();
@@ -44,6 +68,10 @@ public class BasicCritter implements Critterable {
 
     public void emptyFood() {
         collectedFood = 0;
+    }
+
+    public double getFood() {
+        return collectedFood;
     }
 
     public void addFood(double foodValue) {
@@ -80,8 +108,14 @@ public class BasicCritter implements Critterable {
     }
 
     public double[] distributeFood() {
-        double[] inputs = new double[10];
-        // TODO what inputs do we need to give the night network?
+        double[] inputs = new double[6];
+        inputs[0] = collectedFood;
+        inputs[1] = children.size();
+        inputs[2] = getMaintenance();
+        inputs[3] = getReproductionBank();
+        inputs[4] = getMigrationBank();
+        inputs[5] = getRange();
+
         return nightNetwork.run(inputs);
     }
 
@@ -93,8 +127,11 @@ public class BasicCritter implements Critterable {
         return range;
     }
 
+    // TODO should increment child list
     public Critterable reproduce() {
-        return new BasicCritter(this);
+        Critterable child = new BasicCritter(this, settings);
+        children.add(child);
+        return child;
     }
 
     public int getRandom(double[] probabilities) {
@@ -111,5 +148,21 @@ public class BasicCritter implements Critterable {
         }
 
         return Math.max(0, i - 1);
+    }
+
+    public double getReproductionBank() {
+        return reproductionBank;
+    }
+
+    public void increaseReproductionBank(double value) {
+        reproductionBank += value;
+    }
+
+    public double getMigrationBank() {
+        return migrationBank;
+    }
+
+    public void increaseMigrationBank(double value) {
+        migrationBank += value;
     }
 }

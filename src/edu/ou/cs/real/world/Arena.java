@@ -23,11 +23,13 @@ public class Arena {
     private int dayLength;
 
     public Arena(Settings settings) {
-        this.size = new Vec2d(settings.getDouble("arenaWidth"), settings.getDouble("arenaHeight"));
+        size = new Vec2d(settings.getDouble("arenaWidth"), settings.getDouble("arenaHeight"));
+        dayLength = settings.getInt("dayLength");
+
         foodMap = new ArrayFoodMap();
         critters = new ArrayList<Critterable>();
 
-        critters.add(new BasicCritter(this));
+        critters.add(new BasicCritter(this, settings));
     }
 
     public void update() {
@@ -55,7 +57,6 @@ public class Arena {
                         critter.setLocation(new Vec2d(location.x - critter.getRange(), location.y));
                         break;
                     default:
-                        // TODO error
                 }
             }
         }
@@ -67,8 +68,18 @@ public class Arena {
             food.emptyClaims();
         }
 
+        /**
+         * Outputs are:a
+         * [0] - maintenance/growth
+         * [1] - hold
+         * [2] - distribute
+         * [3] - reproduce
+         * [4] - new home
+         */
         for (Critterable critter : critters) {
             double[] distribution = critter.distributeFood();
+
+
 
             // TODO do things here
 
