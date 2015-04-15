@@ -1,9 +1,12 @@
 package edu.ou.cs.real.critter;
 
+import edu.ou.cs.real.settings.Settings;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.exceptions.VectorSizeMismatchException;
 import org.neuroph.nnet.Perceptron;
 import org.neuroph.util.random.GaussianRandomizer;
+
+import java.security.SecureRandom;
 
 /**
  * Created by Brian on 3/6/2015.
@@ -11,11 +14,24 @@ import org.neuroph.util.random.GaussianRandomizer;
 public class BasicDayNetwork implements CritterNeuralNetwork {
     protected NeuralNetwork neuralNetwork;
 
-    public BasicDayNetwork(CritterNeuralNetwork parent, double mean, double sd) {
+    /**
+     * Create a neural network based on the parent neural network using the variations provided by settings.
+     *
+     * @param parent defines the originating network to mutate from
+     * @param settings the settings to be used (specifically the random generator and the standard deviation)
+     */
+    public BasicDayNetwork(CritterNeuralNetwork parent, Settings settings) {
         neuralNetwork = new Perceptron(8, 5);
-        GaussianRandomizer randomizer = new GaussianRandomizer(mean, sd);
-        neuralNetwork.setWeights(parent.getWeights());
-        randomizer.randomize(neuralNetwork);
+
+        SecureRandom random = settings.getRandom();
+        double sd = settings.getDouble("random sd");
+
+        double[] weights = parent.getWeights();
+        for (int i = 0; i < weights.length; i++) {
+            weights[i] += random.nextGaussian() * sd;
+        }
+
+        neuralNetwork.setWeights(weights);
     }
 
     /**

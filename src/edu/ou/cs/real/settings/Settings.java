@@ -4,17 +4,23 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.SecureRandom;
 
 /**
  * Created by Brian on 4/6/2015.
  */
 public class Settings {
     public JSONObject settings;
+    public SecureRandom random;
 
     public Settings() {
+        random = new SecureRandom();
+        byte[] bytes = ByteBuffer.allocate(8).putLong(System.currentTimeMillis()).array();
+        random.setSeed(bytes);
     }
 
     public Settings(String settingsFilePath) {
@@ -26,6 +32,16 @@ public class Settings {
         } catch (IOException e) {
             settings = new JSONObject();
         }
+
+        random = new SecureRandom();
+        long seed = 0;
+        try {
+            seed = getLong("random seed");
+        } catch (NumberFormatException e) {
+            seed = System.currentTimeMillis();
+        }
+        byte[] bytes = ByteBuffer.allocate(8).putLong(seed).array();
+        random.setSeed(bytes);
     }
 
     public Object get(String key) {
@@ -46,6 +62,10 @@ public class Settings {
         return (String)get(key);
     }
 
+    public long getLong(String key) {
+        return (Long)get(key);
+    }
+
     public int getInt(String key) {
         return (Integer)get(key);
     }
@@ -57,5 +77,9 @@ public class Settings {
     private String readFile(String path, Charset encoding) throws IOException {
         byte[] encoded = Files.readAllBytes(Paths.get(path));
         return new String(encoded, encoding);
+    }
+
+    public SecureRandom getRandom() {
+        return null;
     }
 }

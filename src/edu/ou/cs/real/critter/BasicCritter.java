@@ -37,12 +37,12 @@ public class BasicCritter implements Critterable {
         this.parent = parent;
         arena = parent.arena;
 
+        range = 0;
+
         location = new Vec2d(settings.getDouble("nest x"), settings.getDouble("nest y"));
 
-        double mean = settings.getDouble("randomizer mean");
-        double sd = settings.getDouble("randomizer standard_deviation");
-        dayNetwork = new BasicDayNetwork(parent.dayNetwork, mean, sd);
-        nightNetwork = new BasicNightNetwork(parent.nightNetwork, mean, sd);
+        dayNetwork = new BasicDayNetwork(parent.dayNetwork, settings);
+        nightNetwork = new BasicNightNetwork(parent.nightNetwork, settings);
     }
 
     public BasicCritter(Arena arena, Settings settings) {
@@ -51,6 +51,8 @@ public class BasicCritter implements Critterable {
 
         parent = null;
         this.arena = arena;
+
+        range = settings.getDouble("creature startSize");
 
         location = new Vec2d(settings.getDouble("nest x"), settings.getDouble("nest y"));
 
@@ -64,6 +66,10 @@ public class BasicCritter implements Critterable {
 
     public void setLocation(Vec2d location) {
         this.location = location;
+    }
+
+    public void setArena(Arena newHome) {
+        arena = newHome;
     }
 
     public void emptyFood() {
@@ -156,6 +162,14 @@ public class BasicCritter implements Critterable {
 
     public void increaseReproductionBank(double value) {
         reproductionBank += value;
+    }
+
+    public void increaseSize(double value) {
+        range += value;
+    }
+
+    public void maintain() {
+        range -= getMaintenance();
     }
 
     public double getMigrationBank() {

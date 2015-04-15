@@ -16,5 +16,10 @@
   "creature": {
     "startSize": 5,
     "startCount": 1
+  },
+
+  "randomizer": {
+    "seed": 0,
+    "sd": 2
   }
 }

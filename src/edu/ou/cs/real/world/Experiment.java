@@ -12,6 +12,7 @@ public class Experiment {
     public int experimentLength;
 
     private ArrayList<Arena> arenas;
+    private ArrayList<Arena> queue;
 
     public Experiment() {
     }
@@ -22,8 +23,14 @@ public class Experiment {
 
         arenas = new ArrayList<Arena>(startArenaCount);
         for (int i = 0; i < startArenaCount; i++) {
-            arenas.add(new Arena(settings));
+            arenas.add(new Arena(this, settings));
         }
+
+        queue = new ArrayList<Arena>();
+    }
+
+    public void addArena(Arena arena) {
+        queue.add(arena);
     }
 
     public void run() {
@@ -31,6 +38,11 @@ public class Experiment {
             // TODO distribute food to each arena
 
             // TODO run each arena every day
+
+            for (Arena arena : queue) {
+                arenas.add(arena);
+            }
+            queue.clear();
         }
     }
 }
