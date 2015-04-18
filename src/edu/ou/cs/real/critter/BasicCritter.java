@@ -70,6 +70,7 @@ public class BasicCritter implements Critterable {
 
     public void setArena(Arena newHome) {
         arena = newHome;
+        children.clear();
     }
 
     public void emptyFood() {

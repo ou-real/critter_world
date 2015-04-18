@@ -66,16 +66,16 @@ public class Arena {
                         }
                         break;
                     case NORTH:
-                        critter.setLocation(new Vec2d(location.x, location.y - critter.getRange()));
+                        critter.setLocation(new Vec2d((location.x + size.x) % size.x, (location.y - critter.getRange() + size.y) % size.y));
                         break;
                     case SOUTH:
-                        critter.setLocation(new Vec2d(location.x, location.y + critter.getRange()));
+                        critter.setLocation(new Vec2d((location.x + size.x) % size.x, (location.y + critter.getRange() + size.y) % size.y));
                         break;
                     case EAST:
-                        critter.setLocation(new Vec2d(location.x + critter.getRange(), location.y));
+                        critter.setLocation(new Vec2d((location.x + critter.getRange() + size.x) % size.x , (location.y + size.y) % size.y));
                         break;
                     case WEST:
-                        critter.setLocation(new Vec2d(location.x - critter.getRange(), location.y));
+                        critter.setLocation(new Vec2d((location.x - critter.getRange() + size.x) % size.x, (location.y + size.y) % size.y));
                         break;
                     default:
                 }
@@ -117,26 +117,28 @@ public class Arena {
             critter.increaseReproductionBank(food * distribution[3] / total);
             critter.increaseMigrationBank(food * distribution[4] / total);
 
-            while (critter.getReproductionBank() >= settings.getDouble("creature reproduction_threshold")) {
-                critter.increaseReproductionBank(0 - settings.getDouble("creature reproduction_threshold"));
-                queue.add(critter.reproduce());
-            }
-            if (critter.getMigrationBank() >= settings.getDouble("creature migration_threshold")) {
-                critter.increaseMigrationBank(0 - settings.getDouble("creature migration_threshold"));
-
-                Arena newHome = new Arena(experiment, settings, critter);
-                critter.setArena(newHome);
-                experiment.addArena(newHome);
-                // TODO what was I going to do here? probably make the critter handle removal of himself (empty food, etc.)
-                // There is other stuff I have to do later that only applies if he is not part of the group...
-                critters.remove(i--);
-            }
-
             critter.emptyFood();
             critter.maintain();
 
             critter.addFood(food * distribution[1] / total);
             critter.setLocation(new Vec2d(settings.getDouble("nest x"), settings.getDouble("nest y")));
+
+            if (critter.getRange() < 0) {
+                critters.remove(i--);
+            } else {
+                while (critter.getReproductionBank() >= settings.getDouble("creature reproduction_threshold")) {
+                    critter.increaseReproductionBank(0 - settings.getDouble("creature reproduction_threshold"));
+                    queue.add(critter.reproduce());
+                }
+                if (critter.getMigrationBank() >= settings.getDouble("creature migration_threshold")) {
+                    critter.increaseMigrationBank(0 - settings.getDouble("creature migration_threshold"));
+
+                    Arena newHome = new Arena(experiment, settings, critter);
+                    critter.setArena(newHome);
+                    experiment.addArena(newHome);
+                    critters.remove(i--);
+                }
+            }
         }
 
         for (Critterable critter : queue) {
@@ -151,5 +153,16 @@ public class Arena {
             foodValues += food.getValue();
         }
         return foodValues;
+    }
+
+    public void distribute(double value) {
+        for (int i = 0; i < (int)value; i++) {
+            foodMap.addFood(new Food(randomCoordinates()));
+        }
+        foodMap.addFood(new Food(randomCoordinates(), value - (int)value));
+    }
+
+    public Vec2d randomCoordinates() {
+        return new Vec2d(settings.getRandom().nextDouble() * size.x, settings.getRandom().nextDouble() * size.y);
     }
 }

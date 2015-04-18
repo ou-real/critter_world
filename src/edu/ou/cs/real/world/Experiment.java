@@ -8,6 +8,8 @@ import java.util.ArrayList;
  * Created by Brian on 4/6/2015.
  */
 public class Experiment {
+    public Settings settings;
+
     public int startArenaCount;
     public int experimentLength;
 
@@ -35,9 +37,14 @@ public class Experiment {
 
     public void run() {
         for (int day = 0; day < experimentLength; day++) {
-            // TODO distribute food to each arena
+            double totalFood = settings.getDouble("foodDistribution");
+            for (Arena arena : arenas) {
+                arena.distribute(totalFood / arenas.size());
+            }
 
-            // TODO run each arena every day
+            for (Arena arena : arenas) {
+                arena.update();
+            }
 
             for (Arena arena : queue) {
                 arenas.add(arena);

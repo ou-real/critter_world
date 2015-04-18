@@ -33,8 +33,8 @@ public class Food {
      * @param location location of where to create the food
      * @param value caloric value of the food
      */
-    public Food(Vec2d location, float value) {
-        this.location = location;
+    public Food(Vec2d location, double value) {
+        this.location = new Vec2d(location.x, location.y);
 
         this.value = value;
 
