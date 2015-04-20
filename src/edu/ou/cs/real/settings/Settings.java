@@ -37,7 +37,7 @@ public class Settings {
         long seed = 0;
         try {
             seed = getLong("random seed");
-        } catch (NumberFormatException e) {
+        } catch (ClassCastException e) {
             seed = System.currentTimeMillis();
         }
         byte[] bytes = ByteBuffer.allocate(8).putLong(seed).array();
@@ -45,6 +45,8 @@ public class Settings {
     }
 
     public Object get(String key) {
+        log(String.format("Retrieve setting: \"%s\"", key));
+
         JSONObject current = settings;
         String[] values = key.split(" ");
         try {
@@ -63,7 +65,11 @@ public class Settings {
     }
 
     public long getLong(String key) {
-        return (Long)get(key);
+        try {
+            return (Long)get(key);
+        } catch (ClassCastException e) {
+            return ((Integer)get(key)).longValue();
+        }
     }
 
     public int getInt(String key) {
@@ -71,7 +77,11 @@ public class Settings {
     }
 
     public double getDouble(String key) {
-        return (Double)get(key);
+        try {
+            return (Double)get(key);
+        } catch (ClassCastException e) {
+            return (double)getLong(key);
+        }
     }
 
     private String readFile(String path, Charset encoding) throws IOException {
@@ -80,6 +90,14 @@ public class Settings {
     }
 
     public SecureRandom getRandom() {
-        return null;
+        return random;
+    }
+
+    public void log(String message) {
+        System.out.println(message);
+    }
+
+    public void log(String format, Object... args) {
+        System.out.println(String.format(format, args));
     }
 }

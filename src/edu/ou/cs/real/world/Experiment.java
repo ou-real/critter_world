@@ -20,6 +20,8 @@ public class Experiment {
     }
 
     public Experiment(Settings settings) {
+        this.settings = settings;
+
         startArenaCount = settings.getInt("startArenaCount");
         experimentLength = settings.getInt("experimentLength");
 
@@ -37,6 +39,8 @@ public class Experiment {
 
     public void run() {
         for (int day = 0; day < experimentLength; day++) {
+            settings.log("Day: %d", day);
+
             double totalFood = settings.getDouble("foodDistribution");
             for (Arena arena : arenas) {
                 arena.distribute(totalFood / arenas.size());

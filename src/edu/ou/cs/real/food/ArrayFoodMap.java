@@ -14,7 +14,9 @@ public class ArrayFoodMap implements FoodMappable {
     /**
      * Default constructor
      */
-    public ArrayFoodMap() {}
+    public ArrayFoodMap() {
+        allFood = new ArrayList<Food>();
+    }
 
     /**
      * Get all instances of food on the map

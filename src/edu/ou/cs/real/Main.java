@@ -16,6 +16,7 @@ public class Main {
         }
 
         Experiment experiment = new Experiment(settings);
+        experiment.run();
         // TODO
     }
 }

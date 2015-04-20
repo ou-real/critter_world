@@ -9,17 +9,27 @@
     "y": 50
   },
 
+  "foodDistribution": 2000,
+
   "startArenaCount": 5,
   "dayLength": 100,
   "experimentLength": 1000,
 
   "creature": {
     "startSize": 5,
-    "startCount": 1
+    "startCount": 1,
+
+    "reproduction_threshold": 2000,
+    "migration_threshold": 4000
   },
 
   "randomizer": {
     "seed": 0,
     "sd": 2
+  },
+
+  "log": {
+    "file": "sample.log",
+    "format": "sqlite"
   }
 }

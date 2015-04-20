@@ -43,7 +43,7 @@ public class Arena {
         this.experiment = experiment;
         this.settings = settings;
 
-        size = new Vec2d(settings.getDouble("arenaWidth"), settings.getDouble("arenaHeight"));
+        size = new Vec2d(settings.getDouble("arena width"), settings.getDouble("arena height"));
         dayLength = settings.getInt("dayLength");
 
         foodMap = new ArrayFoodMap();
@@ -118,7 +118,6 @@ public class Arena {
             critter.increaseMigrationBank(food * distribution[4] / total);
 
             critter.emptyFood();
-            critter.maintain();
 
             critter.addFood(food * distribution[1] / total);
             critter.setLocation(new Vec2d(settings.getDouble("nest x"), settings.getDouble("nest y")));
@@ -138,6 +137,15 @@ public class Arena {
                     experiment.addArena(newHome);
                     critters.remove(i--);
                 }
+            }
+        }
+
+        for (int i = 0; i < critters.size(); i++) {
+            Critterable critter = critters.get(i);
+
+            critter.maintain();
+            if (critter.getRange() < 0) {
+                critters.remove(i--);
             }
         }
 

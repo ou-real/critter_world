@@ -38,7 +38,7 @@ public class BasicDayNetwork implements CritterNeuralNetwork {
      * Create a neural network according to predefined specifications
      */
     public BasicDayNetwork() {
-        neuralNetwork = new Perceptron(8, 5);
+        neuralNetwork = new Perceptron(7, 5);
         neuralNetwork.randomizeWeights();
     }
 
