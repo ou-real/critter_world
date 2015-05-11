@@ -1,6 +1,7 @@
 package edu.ou.cs.real.world;
 
 import com.sun.javafx.geom.Vec2d;
+import edu.ou.cs.real.Action;
 import edu.ou.cs.real.critter.BasicCritter;
 import edu.ou.cs.real.critter.Critterable;
 import edu.ou.cs.real.food.ArrayFoodMap;
@@ -57,7 +58,9 @@ public class Arena {
         for (int i = 0; i < dayLength; i++) {
             for (Critterable critter : critters) {
                 Vec2d location = critter.getLocation();
-                switch (critter.takeTurn()) {
+                Action move = critter.takeTurn();
+                //System.out.println(move);
+                switch (move) {
                     case NO_ACTION:
                         double range = critter.getRange();
                         ArrayList<Food> foodInRange = foodMap.rangeSearch(new Vec2d(location.x - range, location.y - range), new Vec2d(location.x + range, location.y + range));
@@ -100,6 +103,7 @@ public class Arena {
         for (int i = 0; i < critters.size(); i++) {
             Critterable critter = critters.get(i);
             double[] distribution = critter.distributeFood();
+            System.out.println(String.format("(%f, %f, %f, %f, %f)", distribution[0], distribution[1], distribution[2], distribution[3], distribution[4]));
 
             double food = critter.getFood();
             double total = 0;

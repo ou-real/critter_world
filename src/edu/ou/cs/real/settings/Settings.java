@@ -14,13 +14,20 @@ import java.security.SecureRandom;
  * Created by Brian on 4/6/2015.
  */
 public class Settings {
+    public static Settings instance;
+
     public JSONObject settings;
     public SecureRandom random;
+    public Logger logger;
 
     public Settings() {
         random = new SecureRandom();
         byte[] bytes = ByteBuffer.allocate(8).putLong(System.currentTimeMillis()).array();
         random.setSeed(bytes);
+
+        logger = new PrintLogger();
+
+        instance = this;
     }
 
     public Settings(String settingsFilePath) {
@@ -42,10 +49,14 @@ public class Settings {
         }
         byte[] bytes = ByteBuffer.allocate(8).putLong(seed).array();
         random.setSeed(bytes);
+
+        logger = new PrintLogger();
+
+        instance = this;
     }
 
     public Object get(String key) {
-        log(String.format("Retrieve setting: \"%s\"", key));
+        //log(String.format("Retrieve setting: \"%s\"", key));
 
         JSONObject current = settings;
         String[] values = key.split(" ");

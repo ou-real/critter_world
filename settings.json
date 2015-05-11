@@ -19,8 +19,8 @@
     "startSize": 5,
     "startCount": 1,
 
-    "reproduction_threshold": 2000,
-    "migration_threshold": 4000
+    "reproduction_threshold": 5,
+    "migration_threshold": 10
   },
 
   "randomizer": {

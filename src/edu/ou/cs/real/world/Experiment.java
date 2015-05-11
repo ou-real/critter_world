@@ -39,7 +39,7 @@ public class Experiment {
 
     public void run() {
         for (int day = 0; day < experimentLength; day++) {
-            settings.log("Day: %d", day);
+            settings.logger.setDay(day);
 
             double totalFood = settings.getDouble("foodDistribution");
             for (Arena arena : arenas) {

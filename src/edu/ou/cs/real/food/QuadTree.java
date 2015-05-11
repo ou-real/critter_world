@@ -7,6 +7,7 @@ import java.util.ArrayList;
 /**
  * Created by Brian on 3/6/2015.
  * Implementation based on princeton.edu example implementation
+ * Not yet being used, and needs to be adapted
  */
 public class QuadTree {
     private static int threshold = 5;

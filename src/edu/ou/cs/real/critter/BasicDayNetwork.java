@@ -3,7 +3,9 @@ package edu.ou.cs.real.critter;
 import edu.ou.cs.real.settings.Settings;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.exceptions.VectorSizeMismatchException;
+import org.neuroph.nnet.CompetitiveNetwork;
 import org.neuroph.nnet.Perceptron;
+import org.neuroph.nnet.UnsupervisedHebbianNetwork;
 import org.neuroph.util.random.GaussianRandomizer;
 
 import java.security.SecureRandom;
@@ -21,10 +23,10 @@ public class BasicDayNetwork implements CritterNeuralNetwork {
      * @param settings the settings to be used (specifically the random generator and the standard deviation)
      */
     public BasicDayNetwork(CritterNeuralNetwork parent, Settings settings) {
-        neuralNetwork = new Perceptron(8, 5);
+        neuralNetwork = NeuralNetwork.createFromFile("daytime.nnet");
 
         SecureRandom random = settings.getRandom();
-        double sd = settings.getDouble("random sd");
+        double sd = settings.getDouble("randomizer sd");
 
         double[] weights = parent.getWeights();
         for (int i = 0; i < weights.length; i++) {
@@ -38,7 +40,7 @@ public class BasicDayNetwork implements CritterNeuralNetwork {
      * Create a neural network according to predefined specifications
      */
     public BasicDayNetwork() {
-        neuralNetwork = new Perceptron(7, 5);
+        neuralNetwork = NeuralNetwork.createFromFile("daytime.nnet");
         neuralNetwork.randomizeWeights();
     }
 
@@ -76,6 +78,15 @@ public class BasicDayNetwork implements CritterNeuralNetwork {
      */
     public void setWeights(double[] weights) {
         neuralNetwork.setWeights(weights);
+    }
+
+    public String toString() {
+        String s = "";
+        double[] weights = getWeights();
+        for (double d : weights) {
+            s += String.format("%f, ", d);
+        }
+        return s;
     }
 }
 
